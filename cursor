@@ -1,0 +1,32 @@
+create table N_Rollcall(rollno int, name varchar(22), marks int);
+insert into N_Rollcall values(1,'Shyam',55);
+insert into N_Rollcall values(2,'Ram',75);
+insert into N_Rollcall values(3,'aditi',65);
+insert into N_Rollcall values(4,'anshu',67);
+create table O_Rollcall(rollno int, name varchar(22), marks int);
+insert into O_Rollcall values(1,'neha',55);
+insert into O_Rollcall values(2,'Ram',75);
+insert into O_Rollcall values(3,'aditi',54);
+
+
+DECLARE
+rn O_Rollcall.rollno%type;
+nm O_Rollcall.name%type;
+ms O_Rollcall.marks%type;
+cursor c_info IS
+select * from N_Rollcall union select * from O_Rollcall minus select * from N_Rollcall
+BEGIN
+OPEN c_info;
+LOOP
+FETCH c_info into rn, nm, ms;
+EXIT WHEN c_info%notfound;
+insert into N_Rollcall values(rn, nm, ms);
+dbms_output.put_line(rn||''||nm||''||ms);
+END loop;
+CLOSE c_info;
+END;
+
+
+/////
+run=
+select * from N_Rollcall;

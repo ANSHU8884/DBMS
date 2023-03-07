@@ -1,0 +1,99 @@
+
+mysql> create table officer(officer_id int ,officer_name varchar(20), address varchar(20));
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> insert into officer values(1,'ajit',nandur);
+ERROR 1054 (42S22): Unknown column 'nandur' in 'field list'
+mysql> insert into officer values(1,'ajit','nagar');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into officer values(2,'deepika','lucknow');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into officer values(3,'vimal','arunachal');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into officer values(4,'rahul','lucknow');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> create table student(student_id int,student_name varchar(20),course_name varchar(20));
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> insert into student values(1,'aryan','java');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into student values(2,'rohini','Hadoop');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into student values(3,'nisha','mongoDB');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from officer;
++------------+--------------+-----------+
+| officer_id | officer_name | address   |
++------------+--------------+-----------+
+|          1 | ajit         | nagar     |
+|          2 | deepika      | lucknow   |
+|          3 | vimal        | arunachal |
+|          4 | rahul        | lucknow   |
++------------+--------------+-----------+
+4 rows in set (0.01 sec)
+
+mysql> select * from student;
++------------+--------------+-------------+
+| student_id | student_name | course_name |
++------------+--------------+-------------+
+|          1 | aryan        | java        |
+|          2 | rohini       | Hadoop      |
+|          3 | nisha        | mongoDB     |
++------------+--------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select officer.officer_name,officer.address,student.course_name
+    -> from officer
+    -> inner join student
+    -> on officer.officer_id=student.student_id;
++--------------+-----------+-------------+
+| officer_name | address   | course_name |
++--------------+-----------+-------------+
+| ajit         | nagar     | java        |
+| deepika      | lucknow   | Hadoop      |
+| vimal        | arunachal | mongoDB     |
++--------------+-----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select officer.officer_name,officer.address,student.course_name from officer left join student on officer.officer_id=student.student_id;
++--------------+-----------+-------------+
+| officer_name | address   | course_name |
++--------------+-----------+-------------+
+| ajit         | nagar     | java        |
+| deepika      | lucknow   | Hadoop      |
+| vimal        | arunachal | mongoDB     |
+| rahul        | lucknow   | NULL        |
++--------------+-----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select officer.officer_name,officer.address,student.course_name from officer right join student on officer.officer_id=student.student_id;
++--------------+-----------+-------------+
+| officer_name | address   | course_name |
++--------------+-----------+-------------+
+| ajit         | nagar     | java        |
+| deepika      | lucknow   | Hadoop      |
+| vimal        | arunachal | mongoDB     |
++--------------+-----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select officer.officer_name,officer.address,student.course_name,student.student_name from officer right join on officer.officer_id=student.student_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on officer.officer_id=student.student_id' at line 1
+mysql> select officer.officer_name,officer.address,student.course_name,student.student_name from officer right join student on officer.officer_id=student.student_id;
++--------------+-----------+-------------+--------------+
+| officer_name | address   | course_name | student_name |
++--------------+-----------+-------------+--------------+
+| ajit         | nagar     | java        | aryan        |
+| deepika      | lucknow   | Hadoop      | rohini       |
+| vimal        | arunachal | mongoDB     | nisha        |
++--------------+-----------+-------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql>  
+

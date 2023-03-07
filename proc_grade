@@ -1,0 +1,37 @@
+create table stud_marks(rollno int, name varchar(20), total_marks int);
+insert into stud_marks values(1,'shyam',998)
+insert into stud_marks values(2,'ram',850);
+insert into stud_marks values(3,'akash',1200);
+insert into stud_marks values(4,'rohan',992);
+insert into stud_marks values(5,'shruti',995);
+
+create table Result(rollno int,name varchar(20),class varchar(20));
+insert into Result values(1,'shyam','flag');
+insert into Result values(2,'ram','flag');
+insert into Result values(3,'akash','flag');
+insert into Result values(4,'rohan','flag');
+insert into Result values(5,'shruti','flag');
+
+
+create or replace procedure proc_grade(roll in number)
+as
+t stud_marks.total_marks%type;
+begin
+select total_marks into t from stud_marks where rollno=roll;
+if (t<=1500 and t>=900) then
+update Result set class='distrinction' where rollno=roll;
+dbms_output.put_line(roll);
+dbms_output.put_line('distinction');
+elsif(t<=989 and t>=900) then
+update Result set class='first class' where rollno=roll;
+dbms_output.put_line('first class');
+elsif(t<=899 and t>=825) then
+update Result set class='second class' where rollno=roll;
+dbms_output.put_line('second class');
+else
+update Result set class='pass' where rollno=roll;
+end if;
+end;
+
+execute proc_grade(2);
+select * from Result;

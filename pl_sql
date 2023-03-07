@@ -1,0 +1,79 @@
+1.Area of circle with radius greater than 3 and less than equal to 7
+
+
+create table areas(radius int, area int);
+
+DECLARE
+area number(5,2);
+radius number(1):=3;
+pi constant number(3,2):=3.14;
+BEGIN
+while radius<=7
+LOOP
+area:=pi*radius*radius;
+insert into areas values (radius, area);
+radius:=radius+1;
+END LOOP;
+
+select * from areas;
+
+
+
+
+2.attendance
+
+create table student(rollno int, attendance int, status varchar(20));
+insert into student values(1,77,'NULL');
+insert into student values(2,71,'NULL');
+insert into student values(3,78,'NULL');
+insert into student values(4,80,'NULL');
+insert into student values(5,65,'NULL');
+insert into student values(6,60,'NULL');
+insert into student values(7,75,'NULL');
+
+create or replace procedure studentatt(r in number)
+as
+atnd student.attendance%type;
+begin
+select attendance into atnd from student where rollno=r;
+if atnd>=75 then
+dbms_output.put_line('Term Granted');
+update student set status ='ND' where rollno=r;
+elsif atnd<75 then
+dbms_output.put_line('Term Not Granted');
+update student set status='D' where rollno=r;
+end if;
+EXCEPTION
+WHEN no_data_found THEN
+dbms_output.put_line('No Such Roll NO!!');
+end;
+
+
+execute studentatt(7);
+SELECT * FROM student;
+
+
+
+
+
+
+3.Trigger 
+
+create table stud(roll_no int , name varchar(20), class varchar(20));
+insert into stud values(1, 'anshu','TE');
+insert into stud values(5, 'nikita','SE');
+insert into stud values(12, 'rutuja','BE');
+insert into stud values(15, 'sneha','TE');
+
+create table cancle_admission(roll_no int, name varchar(20));
+
+create or replace trigger admissiontrig
+before delete or update on stud
+REFERENCING old as o new as n
+for each row 
+begin
+insert into cancle_admission(:o.roll_no,:o.name);
+end;
+
+
+4.

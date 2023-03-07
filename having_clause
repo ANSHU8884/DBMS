@@ -1,0 +1,80 @@
+mysql> create database cust;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use cust;
+Database changed
+mysql> create table customer1(id int, name varchar(20), age int, address varchar(20), salary int);
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> insert into customer1 values(1,'anshu',23,'nagar',30000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer1 values(2,'aditi',22,'sangamner',32000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer1 values(3,'pratiksha',24,'nashik',33000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer1 values(4,'akanksha',21,'shrirampur',19000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer1 values(5,'mrudula',26,'loni',20000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer1 values(6,'priti',27,'pune',10000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from customer1;
++------+-----------+------+------------+--------+
+| id   | name      | age  | address    | salary |
++------+-----------+------+------------+--------+
+|    1 | anshu     |   23 | nagar      |  30000 |
+|    2 | aditi     |   22 | sangamner  |  32000 |
+|    3 | pratiksha |   24 | nashik     |  33000 |
+|    4 | akanksha  |   21 | shrirampur |  19000 |
+|    5 | mrudula   |   26 | loni       |  20000 |
+|    6 | priti     |   27 | pune       |  10000 |
++------+-----------+------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select id, name,age,salary from customer1 group by id,name,age,salary having age>=24;
++------+-----------+------+--------+
+| id   | name      | age  | salary |
++------+-----------+------+--------+
+|    3 | pratiksha |   24 |  33000 |
+|    5 | mrudula   |   26 |  20000 |
+|    6 | priti     |   27 |  10000 |
++------+-----------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select id, name,age,salary from customer1 group by id,name,age,salary having count(age)>=2;
+Empty set (0.00 sec)
+
+mysql> select id, name,age,salary from customer1 group by id,name,age,salary having count(age)>=4;
+Empty set (0.01 sec)
+
+mysql> select id, name,age,salary from customer1 group by id,name,age,salary having count(age)<=2;
++------+-----------+------+--------+
+| id   | name      | age  | salary |
++------+-----------+------+--------+
+|    1 | anshu     |   23 |  30000 |
+|    2 | aditi     |   22 |  32000 |
+|    3 | pratiksha |   24 |  33000 |
+|    4 | akanksha  |   21 |  19000 |
+|    5 | mrudula   |   26 |  20000 |
+|    6 | priti     |   27 |  10000 |
++------+-----------+------+--------+
+6 rows in set (0.01 sec)
+
+mysql> select id, name,age,salary from customer1 group by id,name,age,salary having salary>=20000;
++------+-----------+------+--------+
+| id   | name      | age  | salary |
++------+-----------+------+--------+
+|    1 | anshu     |   23 |  30000 |
+|    2 | aditi     |   22 |  32000 |
+|    3 | pratiksha |   24 |  33000 |
+|    5 | mrudula   |   26 |  20000 |
++------+-----------+------+--------+
+4 rows in set (0.00 sec)
+
+

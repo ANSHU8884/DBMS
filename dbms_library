@@ -1,0 +1,32 @@
+create or replace procedure book( r in number)
+as 
+c number;
+begin
+select to_number(trunc(sysdate-DOI)) into c from Borrow where rollno=r;
+if c>=15 and c<=30 then
+c:=-15;
+insert into fine values(r,sysdate,'');
+update fine set amt=c*5 where rollno=r;
+elsif c>30 then
+c:=c-30;
+insert into Fine values(r,sysdate,'');
+update fine set amt=(c*50)+75 where rollno=r;
+end if;
+update Borro set status='R' where rollno=r;
+EXCEPTION
+WHEN no_data_found THEN
+dbms_output.put_line('no such rollno!');
+end;
+
+
+create table Borrow(rollno int, name varchar(20), DOI DATE, NOB varchar(20), status varchar(20));
+insert into Borrow values(1,'Anshu',to_date('20220523','yyyymmdd'),'CPP','I');
+insert into Borrow values(2,'shruti',to_date('20210413','yyyymmdd'),'CN','R');
+insert into Borrow values(3,'akshay',to_date('20220822','yyyymmdd'),'Damdhere os','I');
+insert into Borrow values(4,'suraj',to_date('20210618','yyyymmdd'),'Complete JAVA','R');
+create table fn(rollno int, DOI DATE, amt float);
+
+
+set serveroutput on;
+execute book(2);
+select * from fine;
