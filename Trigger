@@ -1,0 +1,14 @@
+create table lib(rollno int,name varchar(20),status varchar(20));
+insert into lib values(1,'shyam','R');
+insert into lib values(2,'ram','I');
+insert into lib values(3,'seeta','I');
+insert into lib values(4,'gita','R');
+create table liba(rollno int,name varchar(20),status varchar(20));
+
+create or replace trigger library
+before delete or update on lib
+REFERENCING old as o new as n
+for each row
+begin
+insert into liba values(:o.rollno, :o.name, :o.status);
+end;
